@@ -1,0 +1,11 @@
+# Environments
+.env
+.venv
+env/
+
+# API keys
+google_key.json
+
+# Op Files
+source/
+destination/
