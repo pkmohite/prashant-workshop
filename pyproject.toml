@@ -9,6 +9,13 @@ readme = "README.md"
 python = "^3.12"
 pytube = "^15.0.0"
 moviepy = "^1.0.3"
+faker = "^24.11.0"
+datetime = "^5.5"
+pandas = "^2.2.2"
+openai = "^1.23.1"
+streamlit = "^1.33.0"
+streamlit-file-browser = "^3.2.20"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
