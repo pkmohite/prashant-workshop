@@ -83,19 +83,24 @@ def download_playlist(playlist_url, destination_folder, start_time=None, end_tim
             shortened_video_folder = os.path.join(destination_folder, "shortened_videos")
             if not os.path.exists(shortened_video_folder):
                 os.makedirs(shortened_video_folder)
-            shortened_video_path = os.path.join(
+                shortened_video_path = os.path.join(
                 shortened_video_folder, video_title + ".mp4"
-            )
+                )
 
             # Shorten the video using moviepy
             ffmpeg_extract_subclip(
-                video_path, start_time, end_time, targetname=shortened_video_path
+            video_path, start_time, end_time, targetname=shortened_video_path
             )
+
+            # Change the file name to lowercase
+            new_file_name = video_title.lower() + ".mp4"
+            new_file_path = os.path.join(shortened_video_folder, new_file_name)
+            os.rename(shortened_video_path, new_file_path)
 
 
 # # downloading the playlist
 # start_time = 0
-# end_time = 60
+# end_time = 20
 # playlist_url = (
 #     "https://www.youtube.com/playlist?list=PLutcJfNEwNkSzUWW3NW3858GhsDJ5XYHV"
 # )
@@ -140,16 +145,14 @@ def change_file_names_to_lowercase(folder_path):
         os.rename(current_file_path, new_file_path)
 
 # # Example usage
-# folder_path = 'videos'
+# folder_path = 'monday_videos_720'
 # change_file_names_to_lowercase(folder_path)
 
-def delete_nonexistent_videos(folder_path, json_file):
-    # Read the JSON file
-    with open(json_file) as f:
-        data = json.load(f)
-
-    # Get the list of file names from the JSON data
-    file_names = [video["videoFile"] for video in data]
+def delete_nonexistent_videos(folder_path, csv_file):
+    # Get the list of file names from column 'videoFiles' in the CSV file
+    with open(csv_file, 'r') as f:
+        reader = csv.DictReader(f)
+        file_names = [row['videoFile'] for row in reader]
 
     # Get all file names in the folder
     all_files = os.listdir(folder_path)
@@ -164,10 +167,10 @@ def delete_nonexistent_videos(folder_path, json_file):
             # Delete the file
             os.remove(file_path)
 
-# # Example usage
-# folder_path = 'videos'
-# json_file = "mf_embeddings.json"
-# delete_nonexistent_videos(folder_path, json_file)
+# Example usage
+folder_path = 'videos'
+csv_file = "mf_template.csv"
+delete_nonexistent_videos(folder_path, csv_file)
 
 
 def download_thumbnail_images(playlist_url, destination_folder):

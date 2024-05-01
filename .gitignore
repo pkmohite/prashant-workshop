@@ -2,6 +2,7 @@
 .env
 .venv
 env/
+videos/
 
 # API keys
 google_key.json
